@@ -4,7 +4,7 @@ metadata:
   name: foo-ingress
 spec:
   rules:
-  - host: k3s.trackswiftly.com
+  - host: app.trackswiftly.com
     http:
       paths:
       - path: /
