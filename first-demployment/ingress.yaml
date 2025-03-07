@@ -4,11 +4,11 @@ metadata:
   name: ingress-wildcard-host
 spec:
   rules:
-  - host: "auth.trackswiftly.com"
+  - host: k3s.trackswiftly.com
     http:
       paths:
-      - pathType: Prefix
-        path: "/"
+      - path: /
+        pathType: Exact
         backend:
           service:
             name: fast-api
