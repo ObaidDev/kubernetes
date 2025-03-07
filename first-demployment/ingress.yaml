@@ -11,6 +11,6 @@ spec:
         pathType: Exact
         backend:
           service:
-            name: fast-api
+            name: fast-api-service
             port:
               number: 80
