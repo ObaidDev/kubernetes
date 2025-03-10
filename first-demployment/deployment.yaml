@@ -25,6 +25,6 @@ spec:
             memory: "256Mi"
             cpu: "500m"
           requests:
-            memory: "128Mi"
-            cpu: "250m"
+            memory: "200Mi"
+            cpu: "300m"
             ephemeral-storage: "500Mi"
