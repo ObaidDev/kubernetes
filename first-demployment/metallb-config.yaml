@@ -1,0 +1,17 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: my-ip-pool
+  namespace: trackswiftly
+spec:
+  addresses:
+    - 165.232.122.31-165.232.122.31  # Replace with a range of free IPs in your network
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: my-l2-advertisement
+  namespace: trackswiftly
+spec:
+  ipAddressPools:
+    - my-ip-pool

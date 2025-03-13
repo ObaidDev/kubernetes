@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "trackswiftly-user-chart.fullname" . }}
+  labels:
+    {{- include "trackswiftly-user-chart.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "trackswiftly-user-chart.name" . }} # Add a label for selector
+  template:
+    metadata:
+      labels:
+        app: {{ include "trackswiftly-user-chart.name" . }} # Ensure labels are consistent
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/opt/keycloak/bin/kc.sh", "start"]
+          env:
+            - name: KC_DB
+              value: {{ .Values.env.KC_DB | quote }}
+            - name: KC_DB_URL
+              value: {{ .Values.env.KC_DB_URL | quote }}
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: auth-user
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: auth-password
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin-secret
+                  key: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin-secret
+                  key: admin-password
+            - name: KC_HOSTNAME
+              value: {{ .Values.env.KC_HOSTNAME | quote }}
+            - name: KC_HTTP_ENABLED
+              value: {{ .Values.env.KC_HTTP_ENABLED | quote }}
+            - name: KC_PROXY_HEADERS
+              value: {{ .Values.env.KC_PROXY_HEADERS | quote }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
