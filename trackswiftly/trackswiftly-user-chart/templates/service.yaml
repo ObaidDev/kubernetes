@@ -3,15 +3,14 @@ kind: Service
 metadata:
   name: {{ include "trackswiftly-user-chart.fullname" . }}
   labels:
-    # {{- include "trackswiftly-user-chart.labels" . | nindent 4 }}
-    app: trackswiftly-user-chart 
+    {{- include "trackswiftly-user-chart.labels" . | nindent 4 }}
 spec:
   selector:
-    app: trackswiftly-user-chart
+    app: {{ include "trackswiftly-user-chart.name" . }}
 
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.service.targetPort }}
       protocol: TCP
       name: http
