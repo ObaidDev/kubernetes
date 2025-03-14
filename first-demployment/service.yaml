@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fast-api-service
+  name: trackswiftly-user-chart-service
 spec:
   selector:
-    app: fast-api
+    app: trackswiftly-user-chart
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  # type: LoadBalancer
+      port: 8080
+      targetPort: 8080
+  # type: LoadBalancer 
