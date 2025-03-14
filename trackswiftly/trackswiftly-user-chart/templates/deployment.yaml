@@ -1,18 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "trackswiftly-user-chart.fullname" . }}
+  # name: {{ include "trackswiftly-user-chart.fullname" . }}
+  name : trackswiftly-user-chart
   labels:
-    {{- include "trackswiftly-user-chart.labels" . | nindent 4 }}
+    # {{- include "trackswiftly-user-chart.labels" . | nindent 4 }}
+    app: trackswiftly-user-chart  
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "trackswiftly-user-chart.name" . }} # Add a label for selector
+      # app: {{ include "trackswiftly-user-chart.name" . }} # Add a label for selector
+      app: trackswiftly-user-chart
   template:
     metadata:
       labels:
-        app: {{ include "trackswiftly-user-chart.name" . }} # Ensure labels are consistent
+        # app: {{ include "trackswiftly-user-chart.name" . }} # Ensure labels are consistent
+        app: trackswiftly-user-chart
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -23,6 +27,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/opt/keycloak/bin/kc.sh", "start"]
           env:
+
+            # data base configuration #
             - name: KC_DB
               value: {{ .Values.env.KC_DB | quote }}
             - name: KC_DB_URL
@@ -37,6 +43,9 @@ spec:
                 secretKeyRef:
                   name: postgres-secret
                   key: auth-password
+
+            
+            # keycloak configuration #
             - name: KEYCLOAK_ADMIN
               valueFrom:
                 secretKeyRef:
@@ -47,8 +56,30 @@ spec:
                 secretKeyRef:
                   name: keycloak-admin-secret
                   key: admin-password
+            
+            # keycloak configuration #
+            - name: KC_FEATURES
+              value: {{ .Values.env.KC_FEATURES | quote }}
+
             - name: KC_HOSTNAME
               value: {{ .Values.env.KC_HOSTNAME | quote }}
+
+            - name : KC_HOSTNAME_BACKCHANNEL_DYNAMIC
+              value: {{ .Values.env.KC_HOSTNAME_BACKCHANNEL_DYNAMIC | quote }}
+
+            - name: KC_HOSTNAME_STRICT
+              value: {{ .Values.env.KC_HOSTNAME_STRICT | quote }}
+
+            - name : KC_HOSTNAME_STRICT_HTTPS
+              value: {{ .Values.env.KC_HOSTNAME_STRICT_HTTPS | quote }}
+
+            - name : KC_HEALTH_ENABLED
+              value: {{ .Values.env.KC_HEALTH_ENABLED | quote }}
+
+            - name : HTTP_ADDRESS_FORWARDING
+              value: {{ .Values.env.KC_HEALTH_ENABLED | quote }}
+
+            
             - name: KC_HTTP_ENABLED
               value: {{ .Values.env.KC_HTTP_ENABLED | quote }}
             - name: KC_PROXY_HEADERS
