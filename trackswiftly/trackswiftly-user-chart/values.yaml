@@ -10,10 +10,16 @@ image:
 
 
 env:
-  KC_HOSTNAME: auth.trackswiftly.com
+  KC_FEATURES: hostname:v2
+  KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+  KC_HOSTNAME_STRICT: true
+  KC_HOSTNAME_STRICT_HTTPS: false
+  KC_HEALTH_ENABLED: true
+  HTTP_ADDRESS_FORWARDING : true
+  KC_HOSTNAME: https://auth.trackswiftly.com
   KC_DB: postgres
   KC_DB_URL: jdbc:postgresql://posgresql-release-postgresql:5432/auth_db
-  KC_HTTP_ENABLED: "true"
+  KC_HTTP_ENABLED: true
   KC_PROXY_HEADERS: xforwarded
 
 
@@ -27,7 +33,7 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: ""
+  className: "nginx"
   annotations: {}
   kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
