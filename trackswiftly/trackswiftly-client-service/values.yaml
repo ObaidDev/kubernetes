@@ -128,13 +128,13 @@ affinity: {}
 
 env:
   DB_HOST: posgresql-release-postgresql:5432
-  DB_SCHEMA: public
+  DB_SCHEMA: poi_schema
 
 
 # values.yaml
 existingSecrets:
   clientService:
-    secretName: "client-service-secret"
+    secretName: "vehicle-service-secret"
     envMappings:
       - name: DB_USER        # Environment variable name in container
         key: db-user        # Key in Kubernetes secret
