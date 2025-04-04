@@ -60,6 +60,31 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          
+           # # # environment variables # # #
+          env:
+          # Add regular environment variables first
+          {{- with .Values.env }}
+          {{- range $key, $value := . }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+
+
+           # Add secret references
+          {{- if .Values.existingSecrets }}
+          {{- $secretConfig := .Values.existingSecrets.vehicleService }}
+          {{- range $envMapping := $secretConfig.envMappings }}
+          - name: {{ $envMapping.name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ $secretConfig.secretName | quote }}
+                key: {{ $envMapping.key | quote }}
+          {{- end }}
+          {{- end }}
+
+
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
