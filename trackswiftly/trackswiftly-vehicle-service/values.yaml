@@ -127,7 +127,7 @@ affinity: {}
 
 # 
 env:
-  DB_HOST: posgresql-release-postgresql:5432
+  DB_HOST: postgresql-release:5432
   DB_SCHEMA: public
 
 
