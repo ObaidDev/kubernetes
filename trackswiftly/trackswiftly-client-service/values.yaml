@@ -127,13 +127,13 @@ affinity: {}
 
 
 env:
-  DB_HOST: posgresql-release-postgresql:5432
+  DB_HOST: postgresql-release:5432
   DB_SCHEMA: poi_schema
 
 
 # values.yaml
 existingSecrets:
-  clientService:
+  vehicleService:
     secretName: "vehicle-service-secret"
     envMappings:
       - name: DB_USER        # Environment variable name in container
