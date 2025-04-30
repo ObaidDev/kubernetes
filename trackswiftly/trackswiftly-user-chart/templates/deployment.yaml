@@ -35,25 +35,25 @@ spec:
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: auth-user
+                  name: user-service-secret
+                  key: db-auth-user
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: auth-password
+                  name: user-service-secret
+                  key: db-auth-password
 
             
             # keycloak configuration #
             - name: KEYCLOAK_ADMIN
               valueFrom:
                 secretKeyRef:
-                  name: keycloak-admin-secret
+                  name: user-service-secret
                   key: admin
             - name: KEYCLOAK_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: keycloak-admin-secret
+                  name: user-service-secret
                   key: admin-password
             
             # keycloak configuration #
