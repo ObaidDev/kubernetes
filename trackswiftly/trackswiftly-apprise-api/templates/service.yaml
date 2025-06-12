@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "trackswiftly-apprise-api.fullname" . }}
+  labels:
+    {{- include "trackswiftly-apprise-api.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "trackswiftly-apprise-api.selectorLabels" . | nindent 4 }}
